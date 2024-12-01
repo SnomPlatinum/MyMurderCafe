@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://deunds4mgtwv1"]
+
+[ext_resource type="PackedScene" uid="uid://c8xw32crrdq1t" path="res://cafenpc.tscn" id="1_ib0ku"]
+[ext_resource type="Script" path="res://CafeExpanded.gd" id="1_v7e22"]
+
+[node name="PathFollow2D" type="PathFollow2D"]
+position = Vector2(-200, 88)
+rotates = false
+loop = false
+script = ExtResource("1_v7e22")
+
+[node name="CAFENPC2" parent="." instance=ExtResource("1_ib0ku")]

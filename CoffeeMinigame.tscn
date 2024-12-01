@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://dsigj253mr1em"]
+
+[ext_resource type="Material" uid="uid://l7x7xchm0t5i" path="res://unshaded.tres" id="1_4e5s6"]
+[ext_resource type="Script" path="res://CoffeeButton.gd" id="1_cpbxy"]
+[ext_resource type="Texture2D" uid="uid://cmjc4sifecsii" path="res://UI.png" id="1_f262d"]
+[ext_resource type="Script" path="res://CompletionProgress.gd" id="1_i1422"]
+[ext_resource type="Script" path="res://MilkProgress.gd" id="1_v45j3"]
+[ext_resource type="Script" path="res://CoffeeProgress.gd" id="2_pd4kd"]
+[ext_resource type="Script" path="res://HeatProgress.gd" id="3_7hpyu"]
+[ext_resource type="Texture2D" uid="uid://kp50esee2qrf" path="res://Pointer.png" id="4_t4fwf"]
+[ext_resource type="Texture2D" uid="uid://cigaf7tmpjtqa" path="res://EVILpointer.png" id="5_3r2wq"]
+
+[node name="CoffeeMenu" type="Control"]
+material = ExtResource("1_4e5s6")
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CompletionProgress" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = -89.0
+offset_top = 73.0
+offset_right = 89.0
+offset_bottom = 100.0
+script = ExtResource("1_i1422")
+
+[node name="MilkButton" type="Button" parent="CompletionProgress"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 165.0
+offset_top = -143.0
+offset_right = 214.0
+offset_bottom = -112.0
+toggle_mode = true
+text = "MILK"
+
+[node name="MilkProgress" type="ProgressBar" parent="CompletionProgress/MilkButton"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 42.0
+offset_right = 39.0
+offset_bottom = 134.0
+value = 90.0
+fill_mode = 3
+script = ExtResource("1_v45j3")
+
+[node name="GOOD" type="Sprite2D" parent="CompletionProgress/MilkButton"]
+position = Vector2(56, 87)
+texture = ExtResource("4_t4fwf")
+
+[node name="EVIL" type="Sprite2D" parent="CompletionProgress/MilkButton"]
+position = Vector2(55, 52)
+texture = ExtResource("5_3r2wq")
+
+[node name="CoffeeButton" type="Button" parent="CompletionProgress"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 54.0
+offset_top = -143.0
+offset_right = 120.0
+offset_bottom = -112.0
+toggle_mode = true
+text = "COFFEE
+"
+script = ExtResource("1_cpbxy")
+
+[node name="CoffeeProgress" type="ProgressBar" parent="CompletionProgress/CoffeeButton"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 42.0
+offset_right = 48.0
+offset_bottom = 134.0
+fill_mode = 3
+script = ExtResource("2_pd4kd")
+
+[node name="GOOD" type="Sprite2D" parent="CompletionProgress/CoffeeButton/CoffeeProgress"]
+position = Vector2(44, 45)
+texture = ExtResource("4_t4fwf")
+
+[node name="EVIL" type="Sprite2D" parent="CompletionProgress/CoffeeButton/CoffeeProgress"]
+position = Vector2(43, 19)
+texture = ExtResource("5_3r2wq")
+
+[node name="HeatButton" type="Button" parent="CompletionProgress"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -39.0
+offset_top = -143.0
+offset_right = 10.0
+offset_bottom = -112.0
+toggle_mode = true
+text = "HEAT"
+
+[node name="HeatProgress" type="ProgressBar" parent="CompletionProgress/HeatButton"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 42.0
+offset_right = 39.0
+offset_bottom = 134.0
+value = 80.0
+fill_mode = 3
+script = ExtResource("3_7hpyu")
+
+[node name="GOOD" type="Sprite2D" parent="CompletionProgress/HeatButton/HeatProgress"]
+position = Vector2(43, 45)
+texture = ExtResource("4_t4fwf")
+
+[node name="EVIL" type="Sprite2D" parent="CompletionProgress/HeatButton/HeatProgress"]
+position = Vector2(43, 19)
+texture = ExtResource("5_3r2wq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("1_f262d")
+
+[connection signal="toggled" from="CompletionProgress/MilkButton" to="CompletionProgress/MilkButton/MilkProgress" method="_on_milk_button_toggled"]
+[connection signal="toggled" from="CompletionProgress/CoffeeButton" to="CompletionProgress/CoffeeButton/CoffeeProgress" method="_on_coffee_button_toggled"]
+[connection signal="toggled" from="CompletionProgress/HeatButton" to="CompletionProgress/HeatButton/HeatProgress" method="_on_heat_button_toggled"]
