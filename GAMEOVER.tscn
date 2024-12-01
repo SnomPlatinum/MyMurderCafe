@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckkg1lua3cyt4"]
+
+[ext_resource type="Material" uid="uid://l7x7xchm0t5i" path="res://unshaded.tres" id="1_j550f"]
+[ext_resource type="Script" path="res://night_fade.gd" id="2_egsg4"]
+[ext_resource type="Texture2D" uid="uid://cbstqups6oem6" path="res://GAMEOVER.png" id="3_ryiyb"]
+
+[sub_resource type="Animation" id="Animation_wmprg"]
+resource_name = "Fade"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jtjgu"]
+_data = {
+"Fade": SubResource("Animation_wmprg")
+}
+
+[node name="GameOver" type="Node2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 100
+material = ExtResource("1_j550f")
+scale = Vector2(0.4, 0.4)
+script = ExtResource("2_egsg4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_ryiyb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jtjgu")
+}

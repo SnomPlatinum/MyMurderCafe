@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://cjje16833ikx0"]
+
+[ext_resource type="Texture2D" uid="uid://cmjc4sifecsii" path="res://UI.png" id="1_41u3a"]
+[ext_resource type="Texture2D" uid="uid://b2qh68jq4iecd" path="res://Plate.png" id="1_ujrjv"]
+[ext_resource type="Script" path="res://Cursor.gd" id="3_2qrkc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfls1"]
+size = Vector2(143, 5)
+
+[sub_resource type="Animation" id="Animation_is82r"]
+resource_name = "CursorMove"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-90, -72), Vector2(90, -72), Vector2(-90, -72)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_new57"]
+_data = {
+"CursorMove": SubResource("Animation_is82r")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Plate" type="StaticBody2D" parent="."]
+position = Vector2(0, 91)
+
+[node name="Sprite2D" type="Sprite2D" parent="Plate"]
+texture = ExtResource("1_ujrjv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plate"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_tfls1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_41u3a")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)
+
+[node name="Cursor" type="Node2D" parent="."]
+position = Vector2(-90, -72)
+script = ExtResource("3_2qrkc")
+
+[node name="CurrentIngredient" type="Sprite2D" parent="Cursor"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Cursor"]
+libraries = {
+"": SubResource("AnimationLibrary_new57")
+}
+speed_scale = 2.0
