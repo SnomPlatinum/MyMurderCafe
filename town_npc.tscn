@@ -1,0 +1,138 @@
+[gd_scene load_steps=17 format=3 uid="uid://ds4du0ydxiua1"]
+
+[ext_resource type="Script" path="res://town_npc.gd" id="1_h5koj"]
+[ext_resource type="Texture2D" uid="uid://cuuryig1st33n" path="res://lightcone.png" id="3_s7i6j"]
+[ext_resource type="Script" path="res://Lightholder.gd" id="3_w5a4r"]
+[ext_resource type="Texture2D" uid="uid://cakh411x57rvv" path="res://light.png" id="4_1dnep"]
+[ext_resource type="Script" path="res://PointLight2D.gd" id="5_5svfq"]
+[ext_resource type="PackedScene" uid="uid://c5emvth1po03t" path="res://interaction area.tscn" id="6_2sokb"]
+[ext_resource type="Texture2D" uid="uid://cda4v51f0qs3v" path="res://Surprise-Sheet.png" id="7_xrqcb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ridp5"]
+radius = 36.0555
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jho2e"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wcoi"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yq58g"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yj55"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx7fw"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jslw7"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_254aq"]
+atlas = ExtResource("7_xrqcb")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dash"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Blank",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jho2e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wcoi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yq58g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yj55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tx7fw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jslw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_254aq")
+}],
+"loop": false,
+"name": &"Surprise!",
+"speed": 5.0
+}]
+
+[node name="TownBody" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
+script = ExtResource("1_h5koj")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." groups=["navagent"]]
+path_desired_distance = 4.0
+target_desired_distance = 32.0
+path_max_distance = 10.0
+avoidance_enabled = true
+radius = 16.0
+neighbor_distance = 16.0
+max_neighbors = 3
+debug_path_custom_color = Color(0.927104, 0.226911, 0.58623, 1)
+debug_path_custom_line_width = 1.43
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="TownNPC" type="Node2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, -7)
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+position = Vector2(-1, -7)
+scale = Vector2(0.5, 0.5)
+color = Color(0.956863, 0.4, 0, 1)
+texture = ExtResource("4_1dnep")
+script = ExtResource("5_5svfq")
+
+[node name="Lightholder" type="Node2D" parent="."]
+position = Vector2(-1, -7)
+script = ExtResource("3_w5a4r")
+
+[node name="PointLight2D" type="PointLight2D" parent="Lightholder"]
+position = Vector2(0, -48)
+scale = Vector2(2, 2)
+color = Color(0.956863, 0.4, 0, 1)
+texture = ExtResource("3_s7i6j")
+script = ExtResource("5_5svfq")
+
+[node name="Coneofsight" type="Area2D" parent="Lightholder"]
+collision_layer = 0
+collision_mask = 26
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Lightholder/Coneofsight"]
+position = Vector2(1, 7)
+polygon = PackedVector2Array(-11, -11, -16, -11, -16, 10, 17, 10, 17, -11, 9, -11, 47, -103, -49, -103)
+
+[node name="Interaction_Area" parent="." instance=ExtResource("6_2sokb")]
+action_name = "res://murder.png"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interaction_Area"]
+shape = SubResource("CircleShape2D_ridp5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -22)
+sprite_frames = SubResource("SpriteFrames_0dash")
+animation = &"Blank"
+
+[connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_target_reached"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Lightholder/Coneofsight" to="." method="_on_coneofsight_area_entered"]
